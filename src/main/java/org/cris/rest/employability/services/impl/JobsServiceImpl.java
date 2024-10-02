@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class JobsServiceImpl implements JobsService {
@@ -30,10 +31,22 @@ public class JobsServiceImpl implements JobsService {
         List<String> response = new ArrayList<>();
         for(JobDTO job : jobDTOS){
             Job jobToPersist = this.profileMapper.mapToJob(job);
-            jobToPersist.setAbilities(abilitiesService.saveAbilities(job.getAbilities()));
+            jobToPersist.setAbilities(this.abilitiesService.saveAbilities(job.getAbilities()));
             jobRepository.save(jobToPersist);
 
             response.add(jobToPersist.getId());
+        }
+        return response;
+    }
+
+    @Override
+    public List<JobDTO> findJobsById(List<String> ids) {
+        List<Job> jobs = this.jobRepository.findAllById(ids);
+        List<JobDTO> response = new ArrayList<>();
+        for(Job job : jobs){
+            JobDTO jobDTO = this.profileMapper.mapToJobDTO(job);
+            jobDTO.setAbilities(this.abilitiesService.getAbilitiesByIds(job.getAbilities()));
+            response.add(jobDTO);
         }
         return response;
     }

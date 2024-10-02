@@ -1,5 +1,6 @@
 package org.cris.rest.employability.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.cris.rest.employability.models.dtos.GenericResponse;
 import org.cris.rest.employability.models.dtos.UserDTO;
 import org.cris.rest.employability.services.RegistrationService;
@@ -26,11 +27,12 @@ public class RegistrationController {
     }
 
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> createUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<Object> createUser(@RequestBody UserDTO userDTO, HttpServletRequest request) {
         String response = registrationService.createUser(userDTO);
         if (response != null) {
+            String location = request.getRequestURL().toString() + "/" + response;
             HttpHeaders headers = new HttpHeaders();
-            headers.setLocation(URI.create(response));
+            headers.setLocation(URI.create(location));
             return new ResponseEntity<>(headers, HttpStatus.CREATED);
         } else {
             GenericResponse genericResponse = new GenericResponse("Error creating user",

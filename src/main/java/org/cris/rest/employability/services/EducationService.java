@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface EducationService {
     List<String> saveEducationInformation(List<EducationDTO> educationDTOS);
+    List<EducationDTO> getEducationByIds(List<String> ids);
 }

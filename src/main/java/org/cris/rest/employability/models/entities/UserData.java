@@ -1,5 +1,6 @@
 package org.cris.rest.employability.models.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,6 +14,7 @@ public class UserData {
     private Long id;
     private String name;
     private String lastName;
+    @Column(nullable = false, unique = true)
     private String personalId;
     private String role;
     private String email;

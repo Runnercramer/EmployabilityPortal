@@ -45,4 +45,35 @@ public class ProfileMapper {
         education.setFinalDate(educationDTO.getFinalDate());
         return education;
     }
+
+    public ProfileDTO mapToProfileDTO(Profile profile){
+        ProfileDTO profileDTO = new ProfileDTO();
+        profileDTO.setId(profile.getId());
+        profileDTO.setPersonalId(profile.getPersonalId());
+        profileDTO.setTitle(profile.getTitle());
+        profileDTO.setSubtitle(profile.getSubtitle());
+        profileDTO.setLocation(profile.getLocation());
+        profileDTO.setContacts(profile.getContacts());
+        profileDTO.setDescription(profile.getDescription());
+        return profileDTO;
+    }
+
+    public JobDTO mapToJobDTO(Job job){
+        JobDTO jobDTO = new JobDTO();
+        jobDTO.setId(job.getId());
+        jobDTO.setTitle(job.getTitle());
+        jobDTO.setJobPosition(job.getJobPosition());
+        jobDTO.setDescription(job.getDescription());
+        return jobDTO;
+    }
+
+    public EducationDTO mapToEducationDTO(Education education){
+        EducationDTO educationDTO = new EducationDTO();
+        educationDTO.setId(education.getId());
+        educationDTO.setDegree(education.getDegree());
+        educationDTO.setInstitutionName(education.getInstitutionName());
+        educationDTO.setStartDate(education.getStartDate());
+        educationDTO.setFinalDate(education.getFinalDate());
+        return educationDTO;
+    }
 }

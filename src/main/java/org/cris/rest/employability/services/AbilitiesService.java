@@ -5,4 +5,5 @@ import java.util.Map;
 
 public interface AbilitiesService {
     List<String> saveAbilities(List<Map<String, String>> abilities);
+    List<Map<String, String>> getAbilitiesByIds(List<String> ids);
 }

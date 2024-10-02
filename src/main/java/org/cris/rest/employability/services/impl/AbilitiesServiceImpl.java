@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -40,6 +42,18 @@ public class AbilitiesServiceImpl implements AbilitiesService {
             response.add(id);
         });
 
+        return response;
+    }
+
+    @Override
+    public List<Map<String, String>> getAbilitiesByIds(List<String> ids) {
+        List<Ability> abilities = this.abilityRepository.findAllById(ids);
+        List<Map<String, String>> response = new ArrayList<>();
+        abilities.forEach(ability -> {
+            Map<String, String> map = new HashMap<>();
+            map.put(ability.getName(), ability.getDescription());
+            response.add(map);
+        });
         return response;
     }
 }

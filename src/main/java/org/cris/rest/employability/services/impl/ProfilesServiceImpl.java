@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProfilesServiceImpl implements ProfilesService {
@@ -38,6 +39,18 @@ public class ProfilesServiceImpl implements ProfilesService {
 
         profileRepository.save(profile);
         return profile.getId();
+    }
+
+    @Override
+    public ProfileDTO getProfileById(String id) {
+        Optional<Profile> profile = this.profileRepository.findById(id);
+        if (profile.isPresent()) {
+            ProfileDTO profileDTO = this.profileMapper.mapToProfileDTO(profile.get());
+            profileDTO.setWorkExperience(this.jobsService.findJobsById(profile.get().getWorkExperience()));
+            profileDTO.setEducation(this.educationService.getEducationByIds(profile.get().getEducation()));
+            return profileDTO;
+        }
+        return null;
     }
 
 }

@@ -1,7 +1,9 @@
 package org.cris.rest.employability.services.impl;
 
 import org.cris.rest.employability.models.dtos.EducationDTO;
+import org.cris.rest.employability.models.dtos.JobDTO;
 import org.cris.rest.employability.models.entities.Education;
+import org.cris.rest.employability.models.entities.Job;
 import org.cris.rest.employability.repositories.EducationRepository;
 import org.cris.rest.employability.services.AbilitiesService;
 import org.cris.rest.employability.services.EducationService;
@@ -34,6 +36,18 @@ public class EducationServiceImpl implements EducationService {
             this.educationRepository.save(education);
 
             response.add(education.getId());
+        }
+        return response;
+    }
+
+    @Override
+    public List<EducationDTO> getEducationByIds(List<String> ids) {
+        List<Education> educations = this.educationRepository.findAllById(ids);
+        List<EducationDTO> response = new ArrayList<>();
+        for(Education education : educations){
+            EducationDTO educationDTO = this.profileMapper.mapToEducationDTO(education);
+            educationDTO.setAbilities(this.abilitiesService.getAbilitiesByIds(education.getAbilities()));
+            response.add(educationDTO);
         }
         return response;
     }
