@@ -31,13 +31,7 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Override
     public String createProfile(ProfileDTO profileDTO) {
-        List<String> workExperience = this.jobsService.saveJobsInformation(profileDTO.getWorkExperience());
-        List<String> educationIds = this.educationService.saveEducationInformation(profileDTO.getEducation());
-        Profile profile = this.profileMapper.mapToProfile(profileDTO);
-        profile.setWorkExperience(workExperience);
-        profile.setEducation(educationIds);
-
-        profileRepository.save(profile);
+        Profile profile = this.persistProfile(profileDTO);
         return profile.getId();
     }
 
@@ -51,6 +45,28 @@ public class ProfilesServiceImpl implements ProfilesService {
             return profileDTO;
         }
         return null;
+    }
+
+    @Override
+    public String updateProfile(String id, ProfileDTO profileDTO) {
+        Optional<Profile> profile = this.profileRepository.findById(id);
+        if (profile.isPresent()){
+            profileDTO.setId(id);
+            Profile profilePersisted = this.persistProfile(profileDTO);
+            return profilePersisted.getId();
+        }
+            return null;
+    }
+
+    private Profile persistProfile(ProfileDTO profileDTO){
+        List<String> workExperience = this.jobsService.saveJobsInformation(profileDTO.getWorkExperience());
+        List<String> educationIds = this.educationService.saveEducationInformation(profileDTO.getEducation());
+        Profile profileToPersist = this.profileMapper.mapToProfile(profileDTO);
+        profileToPersist.setWorkExperience(workExperience);
+        profileToPersist.setEducation(educationIds);
+
+        profileRepository.save(profileToPersist);
+        return profileToPersist;
     }
 
 }

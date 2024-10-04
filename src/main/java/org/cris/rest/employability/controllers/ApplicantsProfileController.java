@@ -1,7 +1,6 @@
 package org.cris.rest.employability.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.cris.rest.employability.models.dtos.EducationDTO;
 import org.cris.rest.employability.models.dtos.GenericResponse;
 import org.cris.rest.employability.models.dtos.ProfileDTO;
 import org.cris.rest.employability.services.ProfilesService;
@@ -48,9 +47,9 @@ public class ApplicantsProfileController {
     }
 
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> getApplicantProfile(@PathVariable String id){
+    public ResponseEntity<Object> getApplicantProfile(@PathVariable String id) {
         ProfileDTO profileDTO = this.profilesService.getProfileById(id);
-        if(profileDTO != null){
+        if (profileDTO != null) {
             return new ResponseEntity<>(profileDTO, HttpStatus.OK);
         }
         GenericResponse genericResponse = new GenericResponse("Data not found",
@@ -61,7 +60,18 @@ public class ApplicantsProfileController {
 
     @PutMapping("update/{id}")
     public ResponseEntity<Object> updateApplicantProfile(@PathVariable String id,
-                                                         @RequestBody ProfileDTO profileDTO){
-        return null;
+                                                         @RequestBody ProfileDTO profileDTO,
+                                                         HttpServletRequest request) {
+        String response = this.profilesService.updateProfile(id, profileDTO);
+        if (response != null) {
+            String location = request.getRequestURL().toString() + "/" + response;
+            HttpHeaders headers = new HttpHeaders();
+            headers.setLocation(URI.create(location));
+            return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
+        }
+        GenericResponse genericResponse = new GenericResponse("Profile not updated",
+                404,
+                "There is not any profile identified by this " + id + " id");
+        return new ResponseEntity<>(genericResponse, HttpStatus.NOT_FOUND);
     }
 }
