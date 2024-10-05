@@ -7,5 +7,5 @@ import java.util.List;
 public interface UserDataService {
     List<UserDTO> getAllUsers();
     UserDTO getUserById(Long id);
-    UserDTO getByUserPersonalId(String personalId);
+    UserDTO getUserByPersonalId(String personalId);
 }

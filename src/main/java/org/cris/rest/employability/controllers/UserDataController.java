@@ -54,7 +54,7 @@ public class UserDataController {
 
     @GetMapping(value = "/{personalId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> getUserByPersonalId(@PathVariable String personalId){
-        UserDTO userDTO = userDataService.getByUserPersonalId(personalId);
+        UserDTO userDTO = userDataService.getUserByPersonalId(personalId);
         if (userDTO != null) return new ResponseEntity<>(userDTO, HttpStatus.OK);
         else {
             GenericResponse genericResponse = new GenericResponse(DATA_NOT_FOUND,
