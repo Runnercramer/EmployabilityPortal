@@ -1,5 +1,7 @@
 package org.cris.rest.employability.models.dtos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +10,9 @@ public class JobDTO {
     private String id;
     private String title;
     private String jobPosition;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date startDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date finalDate;
     private String description;
     private List<Map<String, String>> abilities;

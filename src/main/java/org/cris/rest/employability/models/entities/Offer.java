@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Document(collection = "documents")
+@Document(collection = "offers")
 public class Offer {
     @Id
     private String id;

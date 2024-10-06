@@ -27,22 +27,22 @@ public class AbilitiesServiceImpl implements AbilitiesService {
         List<String> response = new ArrayList<>();
 
         abilities.forEach(abilityMap -> {
-            Ability entity = new Ability();
-            String id = UUID.randomUUID().toString();
-            entity.setId(id);
-
             abilityMap.forEach((name, description) -> {
+                Ability entity = new Ability();
+                String id = UUID.randomUUID().toString();
+                entity.setId(id);
                 entity.setName(name);
                 entity.setDescription(description);
+
+                abilityRepository.save(entity);
+
+                response.add(id);
             });
-
-            abilityRepository.save(entity);
-
-            response.add(id);
         });
 
         return response;
     }
+
 
     @Override
     public List<Map<String, String>> getAbilitiesByIds(List<String> ids) {
