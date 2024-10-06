@@ -77,6 +77,16 @@ public class OffersController {
     public ResponseEntity<Object> updateOffer(@PathVariable String id,
                                               @RequestBody OfferDTO offerDTO,
                                               HttpServletRequest request) {
-        return null;
+        String response = this.offerService.updateOffer(id, offerDTO);
+        if (response != null){
+            String location = request.getRequestURL().toString() + "/" + response;
+            HttpHeaders headers = new HttpHeaders();
+            headers.setLocation(URI.create(location));
+            return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
+        }
+        GenericResponse genericResponse = new GenericResponse("Offer was not updated",
+                400,
+                "Offers couldn't be found updated by this " + id + " id");
+        return new ResponseEntity<>(genericResponse, HttpStatus.NOT_FOUND);
     }
 }

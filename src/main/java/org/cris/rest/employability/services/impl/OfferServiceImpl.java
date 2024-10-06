@@ -70,6 +70,20 @@ public class OfferServiceImpl implements OfferService {
 
     @Override
     public String updateOffer(String id, OfferDTO offerDTO) {
+        UserDTO userDTO = this.userDataService.getUserByPersonalId(offerDTO.getCreatedBy());
+        if (userDTO == null) return null;
+        Optional<Offer> offerPersisted = this.offerRepository.findById(id);
+        if (offerPersisted.isPresent()) {
+
+            List<String> abilities = this.abilitiesService.saveAbilities(offerDTO.getAbilities());
+            Offer offerToPersist = this.offerMapper.mapToOffer(offerDTO);
+            offerToPersist.setEnterprise(this.enterpriseService.saveEnterprise(offerDTO.getEnterprise()));
+            offerToPersist.setId(id);
+            offerToPersist.setAbilities(abilities);
+
+            this.offerRepository.save(offerToPersist);
+            return offerToPersist.getId();
+        }
         return null;
     }
 
@@ -79,7 +93,7 @@ public class OfferServiceImpl implements OfferService {
         return this.mapOffers(offers);
     }
 
-    private List<OfferDTO> mapOffers(List<Offer> offers){
+    private List<OfferDTO> mapOffers(List<Offer> offers) {
         List<OfferDTO> response = new ArrayList<>();
         offers.forEach(offer -> {
             OfferDTO offerDTO = this.offerMapper.mapToOfferDTO(offer);

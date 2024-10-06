@@ -1,9 +1,7 @@
 package org.cris.rest.employability.services.impl;
 
 import org.cris.rest.employability.models.dtos.EducationDTO;
-import org.cris.rest.employability.models.dtos.JobDTO;
 import org.cris.rest.employability.models.entities.Education;
-import org.cris.rest.employability.models.entities.Job;
 import org.cris.rest.employability.repositories.EducationRepository;
 import org.cris.rest.employability.services.AbilitiesService;
 import org.cris.rest.employability.services.EducationService;
