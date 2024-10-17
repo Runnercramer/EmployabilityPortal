@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -88,5 +89,11 @@ public class OffersController {
                 400,
                 "Offers couldn't be found updated by this " + id + " id");
         return new ResponseEntity<>(genericResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<Object> deleteOffer(@PathVariable String id){
+        this.offerService.deleteOffer(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

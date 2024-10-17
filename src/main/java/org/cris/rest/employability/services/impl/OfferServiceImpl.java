@@ -93,6 +93,11 @@ public class OfferServiceImpl implements OfferService {
         return this.mapOffers(offers);
     }
 
+    @Override
+    public void deleteOffer(String id) {
+        this.offerRepository.deleteById(id);
+    }
+
     private List<OfferDTO> mapOffers(List<Offer> offers) {
         List<OfferDTO> response = new ArrayList<>();
         offers.forEach(offer -> {

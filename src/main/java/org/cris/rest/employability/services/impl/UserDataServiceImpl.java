@@ -49,6 +49,13 @@ public class UserDataServiceImpl implements UserDataService {
     @Override
     public UserDTO getUserByPersonalId(String personalId) {
         Optional<UserData> userData = userDataRepository.findByPersonalId(personalId);
-        return userData.map(userDataMapper::mapToUserDTO).orElse(null);
+        if (userData.isPresent()){
+            UserDTO userDTO = this.userService.getUserDTOById(userData.get().getId());
+            UserDTO finalUserDTO = this.userDataMapper.mapToUserDTO(userData.get());
+            finalUserDTO.setUsername(userDTO.getUsername());
+            finalUserDTO.setPassword(userDTO.getPassword());
+            return finalUserDTO;
+        }
+        return null;
     }
 }

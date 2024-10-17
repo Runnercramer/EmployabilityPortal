@@ -64,6 +64,8 @@ public class ProfileMapper {
         jobDTO.setTitle(job.getTitle());
         jobDTO.setJobPosition(job.getJobPosition());
         jobDTO.setDescription(job.getDescription());
+        jobDTO.setStartDate(job.getStartDate());
+        jobDTO.setFinalDate(job.getFinalDate());
         return jobDTO;
     }
 

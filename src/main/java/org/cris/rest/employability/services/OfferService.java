@@ -10,4 +10,5 @@ public interface OfferService {
     List<OfferDTO> getAllOffers();
     String updateOffer(String id, OfferDTO offerDTO);
     List<OfferDTO> getOffersCreatedBy(String id);
+    void deleteOffer(String id);
 }
