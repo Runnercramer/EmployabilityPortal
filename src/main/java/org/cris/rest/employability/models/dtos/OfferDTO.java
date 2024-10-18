@@ -1,7 +1,5 @@
 package org.cris.rest.employability.models.dtos;
 
-import org.cris.rest.employability.models.entities.Ability;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;

@@ -14,12 +14,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 import java.util.List;
 
-@RestController("offers")
+@RestController
+@RequestMapping("offers")
 public class OffersController {
 
     private OfferService offerService;
@@ -35,7 +37,7 @@ public class OffersController {
         if (offerDTOS != null && !offerDTOS.isEmpty()) return new ResponseEntity<>(offerDTOS, HttpStatus.OK);
         GenericResponse genericResponse = new GenericResponse("Offers were not found",
                 404,
-                "Offer couldn't be found");
+                "Offers couldn't be found");
         return new ResponseEntity<>(genericResponse, HttpStatus.NOT_FOUND);
     }
 
@@ -80,7 +82,7 @@ public class OffersController {
                                               HttpServletRequest request) {
         String response = this.offerService.updateOffer(id, offerDTO);
         if (response != null){
-            String location = request.getRequestURL().toString() + "/" + response;
+            String location = request.getRequestURL().toString().replace("/" + id, "") + "/" + response;
             HttpHeaders headers = new HttpHeaders();
             headers.setLocation(URI.create(location));
             return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);

@@ -9,6 +9,8 @@ import org.cris.rest.employability.services.mappers.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -25,9 +27,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserDTOById(Long id) {
-        User user = this.userRepository.getReferenceById(id);
-        user.setUsername(this.securityService.obfuscateData(user.getUsername(), false));
-        user.setPassword(this.securityService.obfuscateData(user.getPassword(), true));
-        return this.userMapper.mapToUserDTO(user);
+        Optional<User> user = this.userRepository.findById(id);
+        if (user.isPresent()) {
+            user.get().setUsername(this.securityService.obfuscateData(user.get().getUsername(), false));
+            user.get().setPassword(this.securityService.obfuscateData(user.get().getPassword(), true));
+            return this.userMapper.mapToUserDTO(user.get());
+        }
+        return null;
     }
 }

@@ -64,7 +64,7 @@ public class ApplicantsProfileController {
                                                          HttpServletRequest request) {
         String response = this.profilesService.updateProfile(id, profileDTO);
         if (response != null) {
-            String location = request.getRequestURL().toString() + "/" + response;
+            String location = request.getRequestURL().toString().replace("/" + id, "") + "/" + response;
             HttpHeaders headers = new HttpHeaders();
             headers.setLocation(URI.create(location));
             return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);

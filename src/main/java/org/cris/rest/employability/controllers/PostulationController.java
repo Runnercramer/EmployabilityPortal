@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 import java.util.List;
 
-@RestController("postulations")
+@RestController
+@RequestMapping("postulations")
 public class PostulationController {
 
     private PostulationService postulationService;
@@ -70,7 +72,7 @@ public class PostulationController {
                                                     HttpServletRequest request){
         String response = this.postulationService.updatePostulation(postulationDTO, id);
         if (response != null){
-            String location = request.getRequestURL() + "/" + response;
+            String location = request.getRequestURL().toString().replace("/" + id, "") + "/" + response;
             HttpHeaders headers = new HttpHeaders();
             headers.setLocation(URI.create(location));
             return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
